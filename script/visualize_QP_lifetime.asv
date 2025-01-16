@@ -1,0 +1,18 @@
+data=LDoS_result;
+% Create a 301x301 mask with ones on the diagonal
+mask = eye(301);
+% Set left half of diagonal to zero (including middle point)
+mask(1:151, 1:151) = mask(1:151, 1:151) * 0;
+
+% Apply the mask to each time slice of the data
+% Assuming your 3D data is stored in a variable called 'data'
+masked_data = zeros(size(data));
+for t = 1:size(data, 3)
+    masked_data(:,:,t) = data(:,:,t) .* mask;
+end
+
+% Visualize the result using d3gridDisplay
+d3gridDisplay(masked_data, "dynamic");
+
+q= squeeze(masked_data);
+x=linspace(0,150,150)
